@@ -28,7 +28,7 @@ const config = {
     wrappedEtherAddress: '0x8a18c7034aCEfD1748199a58683Ee5F22e2d4e45',
   };
 
-const setProtocol = new SetProtocol(provider, config);
+export const setProtocol = new SetProtocol(provider, config);
 
 export const createStableSet = async (from) => {
     const tUSDAddress = '0xAdB015D61F4bEb2A712D237D9d4c5B75BAFEfd7B';

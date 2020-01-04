@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import { createStableSet } from '../eth/setSetup';
+import { issueStableSet, approveTokensForTransfer } from '../eth/addTokens';
+import { redeemSet } from '../eth/redeemSet';
 
 export default class Dashboard extends Component {
     constructor() {
         super();
 
         this.state = {
-            address: ''
+            address: '',
+            setAddress: '',
+            daiAddress: '0xAdB015D61F4bEb2A712D237D9d4c5B75BAFEfd7B',
+            tUSDAddress: '0x1d82471142F0aeEEc9FC375fC975629056c26ceE'
         }
     }
 
@@ -16,12 +21,38 @@ export default class Dashboard extends Component {
         this.setState({address});
     }
 
-    render() {
+    createSet = async () => {
+        console.log('clicked')
         const { address } = this.state;
+        const setAddress = await createStableSet(address);
+        this.setState({setAddress})
+    }
+
+    addTokens = async () => {
+        const { address, tUSDAddress, daiAddress, setAddress } = this.state;
+        const componentAddresses = [tUSDAddress, daiAddress];
+
+        await approveTokensForTransfer(componentAddresses);
+
+        const issueTxHash = await issueStableSet(setAddress, address);
+        console.log(issueTxHash);
+    }
+
+    convertSet = async () => {
+        const { address, setAddress } = this.state;
+        const txHash = await redeemSet(setAddress, address);
+        console.log(txHash);
+    }
+
+    render() {
+        const { setAddress } = this.state;
         return (
             <div>
                 <h3>Click the button below to create a stable set</h3>
-                <button onClick={()=>createStableSet(address)}>Click me</button>
+                <h3>Set Address: {setAddress}</h3>
+                <button onClick={this.createSet}>Click to create Stable Set</button>
+                <button onClick={this.addTokens}>Click to add tokens</button>
+                <button onClick={this.convertSet}>Click to Redeem Set for Tokens</button>
             </div>
         )
     }
