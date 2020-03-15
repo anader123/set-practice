@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { createStableSet } from '../eth/setSetup';
 import { issueStableSet, approveTokensForTransfer } from '../eth/addTokens';
 import { redeemSet } from '../eth/redeemSet';
+import CreateSet from './CreateSet';
 
 export default class Dashboard extends Component {
     constructor() {
@@ -22,7 +23,6 @@ export default class Dashboard extends Component {
     }
 
     createSet = async () => {
-        console.log('clicked')
         const { address } = this.state;
         const setAddress = await createStableSet(address);
         this.setState({setAddress})
@@ -50,9 +50,7 @@ export default class Dashboard extends Component {
             <div>
                 <h3>Click the button below to create a stable set</h3>
                 <h3>Set Address: {setAddress}</h3>
-                <button onClick={this.createSet}>Click to create Stable Set</button>
-                <button onClick={this.addTokens}>Click to add tokens</button>
-                <button onClick={this.convertSet}>Click to Redeem Set for Tokens</button>
+                <CreateSet />
             </div>
         )
     }

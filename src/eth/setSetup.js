@@ -12,7 +12,7 @@ catch (err) {
     throw new Error(`No inject web3: ${err}`)
 }
 
-// Kovan
+// Kovan Network
 const config = {
     coreAddress: '0x3ee64Fe0b9246Ae52845F01A79c4b3A6D252289a',
     exchangeIssuanceModuleAddress: '0x887E45236B280B33C743075ac11dD69E3c581697',
@@ -30,7 +30,7 @@ const config = {
 
 export const setProtocol = new SetProtocol(provider, config);
 
-export const createStableSet = async (from) => {
+export const createStableSet = async (from, name, symbol) => {
     const tUSDAddress = '0xAdB015D61F4bEb2A712D237D9d4c5B75BAFEfd7B';
     const daiAddress = '0x1d82471142F0aeEEc9FC375fC975629056c26ceE';
     const componentAddresses = [tUSDAddress, daiAddress];
@@ -42,8 +42,6 @@ export const createStableSet = async (from) => {
         new BigNumber(1)
     );
 
-    const name = 'Stable Set';
-    const symbol = 'STBL';
     const txOpts = {
         from,
         gas: 4000000,
