@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Modal } from 'react-bootstrap';
+import { tokenData } from '../eth/tokenData';
+
+import SliderBar from '../Components/SliderBar';
+import TokenCard from '../Components/TokenCard';
 
 import { createStableSet } from '../eth/setSetup';
 
@@ -10,7 +14,8 @@ export default class CreateSet extends Component {
         this.state = {
             show: false,
             name: '',
-            symbol: ''
+            symbol: '',
+            sliders: []
         }
     }
 
@@ -21,11 +26,28 @@ export default class CreateSet extends Component {
         [event.target.name]: event.target.value
     })
 
+    removeSlider = (index, sliders) => {
+        const index2 = tokenData.indexOf(sliders[index]);
+        tokenData[index2].up = false;
+        sliders.splice(index, 1);
+        this.setState({ sliders })
+    }
+
+    addSlider = token => {
+        const sliders = this.state.sliders;
+        if(sliders.indexOf(token) === -1) {
+            const index = tokenData.indexOf(token);
+            tokenData[index].up = true;
+            sliders.push(token);
+            this.setState({ sliders });
+        }
+    }
+
     render() {
-        const { show, name, symbol } = this.state;
+        const { show, name, symbol, sliders } = this.state;
         return (
             <div>
-                <form
+                {/* <form
                     onSubmit={event => {
                         event.preventDefault();
                         this.setState({ show: true });
@@ -61,7 +83,22 @@ export default class CreateSet extends Component {
                         Create Set
                     </Button>
                     </Modal.Footer>
-                </Modal>
+                </Modal> */}
+
+                <div className='set-card-container'>
+                {tokenData.map((token) => {
+                    return(
+                        <TokenCard removeSlider={this.removeSlider} token={token} sliders={sliders} addSlider={this.addSlider}/>
+                    )
+                })}
+                </div>
+
+                {sliders.map((slider, index) => {
+                    return(
+                        <SliderBar sliders={sliders} index={index} removeSlider={this.removeSlider}/>
+                    )
+                })}
+
             </div>
         )
     }

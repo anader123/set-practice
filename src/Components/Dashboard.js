@@ -3,7 +3,6 @@ import { createStableSet } from '../eth/setSetup';
 import { issueStableSet, approveTokensForTransfer } from '../eth/addTokens';
 import { redeemSet } from '../eth/redeemSet';
 import CreateSet from './CreateSet';
-import SetCard from './SetCard';
 
 export default class Dashboard extends Component {
     constructor() {
@@ -49,10 +48,7 @@ export default class Dashboard extends Component {
         const { setAddress } = this.state;
         return (
             <div>
-                <h3>Click the button below to create a stable set</h3>
-                <h3>Set Address: {setAddress}</h3>
                 <CreateSet />
-                <SetCard />
             </div>
         )
     }

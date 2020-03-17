@@ -26,11 +26,47 @@
 }
 
 .set-card-container {
-  width: 70%;
   display: flex;
+  flex-direction: row;
   justify-content: space-evenly;
   content: center;
+  margin: 2em;
 }
 
+.slider-container {
+  margin: 1em;
+}
 
+.slider {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  width: 15%; /* Full-width */
+  height: 8px; /* Specified height */
+  background: #b9b9b9; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  transition: opacity .2s;
+  border-radius: 3px;
+}
 
+.slider:hover {
+  opacity: 1; 
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  background: rgb(83, 76, 175); /* Green background */
+  cursor: pointer; 
+  border-radius: 50%;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px; /* Set a specific slider handle width */
+  height: 15px;
+  background: rgb(83, 76, 175); /* Green background */
+  cursor: pointer; 
+}
