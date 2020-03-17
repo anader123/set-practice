@@ -15,7 +15,9 @@ export default class CreateSet extends Component {
             show: false,
             name: '',
             symbol: '',
-            sliders: []
+            sliders: [],
+            values: [],
+            sliderSum: 0
         }
     }
 
@@ -30,21 +32,31 @@ export default class CreateSet extends Component {
         const index2 = tokenData.indexOf(sliders[index]);
         tokenData[index2].up = false;
         sliders.splice(index, 1);
+        this.state.values.splice(index, 1);
         this.setState({ sliders })
+
+        this.sumValues();
+    }
+
+    sumValues = () => {
+        const sliderSum = this.state.values.reduce((a, b) => a + b, 0);
+        this.setState({ sliderSum });
     }
 
     addSlider = token => {
         const sliders = this.state.sliders;
+        const values = this.state.values;
         if(sliders.indexOf(token) === -1) {
             const index = tokenData.indexOf(token);
             tokenData[index].up = true;
             sliders.push(token);
-            this.setState({ sliders });
+            values.push(0);
+            this.setState({ sliders, values});
         }
     }
 
     render() {
-        const { show, name, symbol, sliders } = this.state;
+        const { show, name, symbol, sliders, values } = this.state;
         return (
             <div>
                 {/* <form
@@ -95,10 +107,11 @@ export default class CreateSet extends Component {
 
                 {sliders.map((slider, index) => {
                     return(
-                        <SliderBar sliders={sliders} index={index} removeSlider={this.removeSlider}/>
+                        <SliderBar sumValues={this.sumValues} values={values} sliders={sliders} index={index} removeSlider={this.removeSlider}/>
                     )
                 })}
-
+                <div>{this.state.sliderSum}</div>
+                <button onClick={this.sumValues}>sum up</button>
             </div>
         )
     }

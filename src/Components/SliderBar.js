@@ -9,7 +9,11 @@ export default class SliderBar extends Component {
         }
     }
 
-    handleChange = event => this.setState({ value: event.target.value });
+    handleChange = event => {
+        this.setState({ value: event.target.value });
+        this.props.values[this.props.index] = +event.target.value;
+        this.props.sumValues()
+    };
 
     render() {
         const { value } = this.state;
@@ -19,7 +23,7 @@ export default class SliderBar extends Component {
                 <div>{sliders[index].name}</div>
                 <img src={sliders[index].image}/>
                 <br/>
-                <input className='slider' type='range' value={value} min={0} max={100/sliders.length} onChange={this.handleChange}/><span onClick={() => removeSlider(index, sliders)}>x</span>
+                <input className='slider' type='range' value={value} min={0} max={100} step={5} onChange={this.handleChange}/><span onClick={() => removeSlider(index, sliders)}>x</span>
                 <div>{value}%</div>
             </div>
         )
