@@ -4,6 +4,7 @@ import { tokenData } from '../eth/tokenData';
 
 import SliderBar from '../Components/SliderBar';
 import TokenCard from '../Components/TokenCard';
+import PieChart from '../Components/PieChart';
 
 import { createStableSet } from '../eth/setSetup';
 
@@ -16,7 +17,7 @@ export default class CreateSet extends Component {
             name: '',
             symbol: '',
             sliders: [],
-            values: [],
+            values: [0],
             sliderSum: 0
         }
     }
@@ -105,13 +106,16 @@ export default class CreateSet extends Component {
                 })}
                 </div>
 
+                <svg width='300' height='300'>
+                    <PieChart x={150} y={150} data={values} />
+                </svg>
+
                 {sliders.map((slider, index) => {
                     return(
                         <SliderBar sumValues={this.sumValues} values={values} sliders={sliders} index={index} removeSlider={this.removeSlider}/>
                     )
                 })}
-                <div>{this.state.sliderSum}</div>
-                <button onClick={this.sumValues}>sum up</button>
+                <div>Total: {this.state.sliderSum}%</div>                
             </div>
         )
     }
