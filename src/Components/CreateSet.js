@@ -17,7 +17,7 @@ export default class CreateSet extends Component {
             name: '',
             symbol: '',
             sliders: [],
-            values: [0],
+            values: [],
             sliderSum: 0
         }
     }
@@ -57,7 +57,7 @@ export default class CreateSet extends Component {
     }
 
     render() {
-        const { show, name, symbol, sliders, values } = this.state;
+        const { show, name, symbol, sliders, values, sliderSum } = this.state;
         return (
             <div>
                 {/* <form
@@ -112,10 +112,17 @@ export default class CreateSet extends Component {
 
                 {sliders.map((slider, index) => {
                     return(
-                        <SliderBar sumValues={this.sumValues} values={values} sliders={sliders} index={index} removeSlider={this.removeSlider}/>
+                        <SliderBar 
+                            sumValues={this.sumValues} 
+                            values={values} 
+                            sliders={sliders} 
+                            index={index} 
+                            removeSlider={this.removeSlider}
+                            sliderSum={sliderSum}
+                        />
                     )
                 })}
-                <div>Total: {this.state.sliderSum}%</div>                
+                <div>Total: {sliderSum}%</div>                
             </div>
         )
     }

@@ -4,11 +4,13 @@ import styled from 'styled-components';
 
 const Path = styled.path`
     fill: ${props => d3.schemePaired[props.index]};
+    stroke: black;
+    cursor: pointer;
 `
 
 const Arc = ({ arcData }) => {
     const arc = d3.arc()
-    .innerRadius(45)
+    .innerRadius(35)
     .outerRadius(75);
 
     return (
@@ -18,11 +20,10 @@ const Arc = ({ arcData }) => {
 
 const PieChart = ({ data, x, y }) => {
     const pie = d3.pie();
-    console.log(pie(data))
     return (
         <g transform={`translate(${x}, ${y})`}>
             {pie(data).map( d =>(
-                <Arc arcData={d}/>
+                <Arc key={d.id} arcData={d}/>
             ))}
         </g>
     )
