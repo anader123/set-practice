@@ -56,6 +56,10 @@ export default class CreateSet extends Component {
         }
     }
 
+    updateValues = values => {
+        this.setState({ values });
+    } 
+
     render() {
         const { show, name, symbol, sliders, values, sliderSum } = this.state;
         return (
@@ -119,6 +123,7 @@ export default class CreateSet extends Component {
                             index={index} 
                             removeSlider={this.removeSlider}
                             sliderSum={sliderSum}
+                            updateValues={this.updateValues}
                         />
                     )
                 })}

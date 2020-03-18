@@ -10,15 +10,16 @@ export default class SliderBar extends Component {
     }
 
     handleChange = event => {
-        const valuesCopy = this.props.values;
-        valuesCopy[this.props.index] = +event.target.value;
+        const { index, values, updateValues, sumValues } = this.props;
+        const valuesCopy = [...values];
+        valuesCopy[index] = +event.target.value;
         const valuesSum = valuesCopy.reduce((a, b) => a + b, 0);
-        console.log(valuesSum)
-        console.log(this.props.values)
+        sumValues();
         if(valuesSum <= 100) {
             this.setState({ value: event.target.value });
-            this.props.values[this.props.index] = +event.target.value;
-            this.props.sumValues();
+            const newValues = [...values];
+            newValues[index] = +event.target.value;
+            updateValues(newValues);
         }
     };
 
