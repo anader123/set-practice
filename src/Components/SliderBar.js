@@ -1,48 +1,97 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react';
 
-export default class SliderBar extends Component {
-    constructor() {
-        super();
+import {
+	Image,
+	Box,
+	Heading,
+	Text,
+  Card,
+  Flex
+} from 'rebass';
 
-        this.state = {
-            value: 0
-        }
+import { Slider } from '@rebass/forms';
+
+export default function SliderBar(props) {
+	const { 
+		token, 
+    index, 
+    sliderValues,
+		sumSliderValues, 
+    removeToken,
+    setDetails,
+    updateSetDetails,
+    updateSliderValues,
+  } = props;
+  
+  const [value, setValue] = useState(token.amount);
+
+  const handleChange = async event => {
+		const sliderValuesCopy = [...sliderValues];
+    sliderValuesCopy[index] = +event.target.value;
+    
+    const valuesSum = sliderValuesCopy.reduce((a, b) => a + b, 0);
+    
+		if(valuesSum <= 100 ){
+      const setDetailsCopy = [...setDetails];
+      setDetailsCopy[index].amount = +event.target.value;
+      updateSetDetails(setDetailsCopy);
+
+			setValue(+event.target.value);
+			await updateSliderValues(sliderValuesCopy);
+			sumSliderValues();
     }
-
-    handleChange = event => {
-        const { index, values, updateValues, sumValues } = this.props;
-        const valuesCopy = [...values];
-        valuesCopy[index] = +event.target.value;
-        const valuesSum = valuesCopy.reduce((a, b) => a + b, 0);
-        sumValues();
-        if(valuesSum <= 100) {
-            this.setState({ value: event.target.value });
-            const newValues = [...values];
-            newValues[index] = +event.target.value;
-            updateValues(newValues);
-        }
-    };
-
-    render() {
-        const { value } = this.state;
-        const { sliders, removeSlider, index, values } = this.props;
-        return (
-            <div className='slider-container'>
-                <div>{sliders[index].name}</div>
-                <img src={sliders[index].image}/>
-                <br/>
-                <input 
-                    className='slider' 
-                    type='range' 
-                    value={value} 
-                    min={0} 
-                    max={100} 
-                    step={5} 
-                    onChange={this.handleChange}
-                />
-                <span onClick={() => removeSlider(index, sliders)}>x</span>
-                <div>{value}%</div>
-            </div>
-        )
-    }
+	}
+  return (
+	<Box 
+	width={256}
+	>
+		<Card sx={{
+			m: [15,0,0,15],
+      p: '10px',
+      borderRadius: 2,
+      boxShadow: '0 0 16px rgba(0, 0, 0, .25)',
+      display: 'flex',
+      alignItems: 'center',
+      flexDirection: 'column',
+      height: '240px'
+    }}>
+    <Flex width={180} sx={{cursor: 'pointer', fontWeight: 'bold'}} justifyContent={'flex-end'}>
+      <div onClick={() => removeToken(index)}>X</div>
+    </Flex>
+        <Box
+        sx={{
+          height: '200px',
+          display: 'flex',
+          justifyContent: 'space-evenly',
+          alignItems: 'center',
+          flexDirection: 'column',
+        }}
+        >
+          <Image width={70} height={70} src={token.image}></Image>
+          <Heading>{token.symbol}</Heading>
+            <Slider
+              type='range'
+              min={0}
+              max={100}
+              step={5}
+              value={value}
+              onChange={handleChange}
+              required
+              sx={{
+                'WebkitAppearance': 'none',
+                'appearance': 'none',
+                'height': '8px',
+                'background': '#b9b9b9',
+                'outline': 'none',
+                'opacity': '0.7',
+                'WebkitTransition': '.2s',
+                'transition': 'opacity .2s',
+                'borderRadius': '2px'
+              }}
+            />
+          <Text>{value}%</Text>
+        </Box>
+		</Card>
+    </Box>
+  )
 }
